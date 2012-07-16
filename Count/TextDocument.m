@@ -14,10 +14,14 @@
 {
     self = [super init];
     if (self) {
-        // Add your subclass-specific initialization here.
-        // If an error occurs here, send a [self release] message and return nil.
+        text = [[NSAttributedString alloc] init];
     }
     return self;
+}
+
+- (void)dealloc {
+    [text release];
+    [super dealloc];
 }
 
 - (NSString *)windowNibName
@@ -30,37 +34,119 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
     [super windowControllerDidLoadNib:aController];
-    // Add any code here that needs to be executed once the windowController has loaded the document's window.
+    [self count:self];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
-    /*
-     Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
-    You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-    */
-    if (outError) {
-        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
-    }
-    return nil;
+    NSDictionary *documentAttributes = [NSDictionary dictionaryWithObject:NSPlainTextDocumentType
+                                                                   forKey:NSDocumentTypeDocumentAttribute];
+    NSData *dataFromText = [text dataFromRange:NSMakeRange(0, [text length])
+                            documentAttributes:documentAttributes
+                                         error:outError];
+    
+    if (!dataFromText && outError) {
+        *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:nil];
+    } 
+    
+    return dataFromText;
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
-    /*
-    Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
-    You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
-    If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-    */
-    if (outError) {
-        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
+    BOOL readSuccess = NO;
+    
+    NSAttributedString *textFromData = [[NSAttributedString alloc] initWithData:data
+                                                                        options:nil
+                                                             documentAttributes:nil
+                                                                          error:outError];
+    if (textFromData) {
+        [self setText:textFromData];
+        [textFromData release];
+        readSuccess = YES;
     }
-    return YES;
+    
+    if (outError) {
+        *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadUnknownError userInfo:nil];
+    }
+    
+    return readSuccess;
 }
 
 + (BOOL)autosavesInPlace
 {
     return YES;
+}
+
+#pragma mark - Accessors and Properties
+
+@synthesize text;
+
+- (NSUInteger)numberOfLines
+{
+    NSString *string = [text string];
+    NSUInteger numberOfLines = 0;
+    NSRange searchRange = NSMakeRange(0, 0);
+    while (searchRange.location < [string length]) {
+        searchRange.location = NSMaxRange([string lineRangeForRange:searchRange]);
+        numberOfLines++;
+    }
+    
+//    for (index = 0; index < stringLength; numberOfLines++) {
+//        index = NSMaxRange([string lineRangeForRange:NSMakeRange(index, 0)]);
+//    }
+    
+    return numberOfLines;
+}
+
+- (NSUInteger)numberOfWords
+{
+    NSString *string = [text string];
+    __block NSUInteger numberOfWords = 0;
+    
+    [string enumerateSubstringsInRange:NSMakeRange(0, [string length])
+                               options:NSStringEnumerationByWords
+                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+                                numberOfWords++;
+                            }];
+     return numberOfWords;
+}
+
+- (NSUInteger)numberOfUniqueWords
+{
+    NSString *string = [[text string] lowercaseString];
+    NSMutableSet *uniqueWords = [NSMutableSet set];
+    
+    [string enumerateSubstringsInRange:NSMakeRange(0, [string length])
+                               options:NSStringEnumerationByWords
+                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+                                [uniqueWords addObject:substring];
+                            }];
+    return [uniqueWords count];
+}
+
+- (NSUInteger)numberOfCharacters
+{
+    NSString *string = [text string];
+    return [string length];
+}
+
+#pragma mark - Count
+
+- (void)count:(id)sender
+{
+    [[textView window] endEditingFor:nil];
+    [lineCount setStringValue:[NSString stringWithFormat:@"Lines: %u", [self numberOfLines]]];
+    [wordCount setStringValue:[NSString stringWithFormat:@"Words: %u", [self numberOfWords]]];
+    [uniqueWordCount setStringValue:[NSString stringWithFormat:@"Unique words: %u", [self numberOfUniqueWords]]];
+    [characterCount setStringValue:[NSString stringWithFormat:@"Characters: %u", [self numberOfCharacters]]];
+}
+
+#pragma mark - NSTextView delegate
+
+- (void)textDidChange:(NSNotification *)notification {
+    [self setText:[textView textStorage]];
+    [self count:self];
 }
 
 @end

@@ -14,6 +14,7 @@
 		102ECD1B1432C9900033007E /* TextDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 102ECD1A1432C9900033007E /* TextDocument.m */; };
 		102ECD1E1432C9900033007E /* TextDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102ECD1C1432C9900033007E /* TextDocument.xib */; };
 		102ECD211432C9900033007E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102ECD1F1432C9900033007E /* MainMenu.xib */; };
+		102ECD2B1432E4190033007E /* TextSearcher.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102ECD2A1432E4190033007E /* TextSearcher.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,15 +23,16 @@
 		102ECD0A1432C9900033007E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		102ECD0B1432C9900033007E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		102ECD0C1432C9900033007E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		102ECD0F1432C9900033007E /* Count-Info.plist */ = {isa = PBXFileReference; path = "Count-Info.plist"; sourceTree = "<group>"; };
+		102ECD0F1432C9900033007E /* Count-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Count-Info.plist"; sourceTree = "<group>"; };
 		102ECD111432C9900033007E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		102ECD131432C9900033007E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		102ECD151432C9900033007E /* Count-Prefix.pch */ = {isa = PBXFileReference; path = "Count-Prefix.pch"; sourceTree = "<group>"; };
+		102ECD151432C9900033007E /* Count-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Count-Prefix.pch"; sourceTree = "<group>"; };
 		102ECD171432C9900033007E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		102ECD191432C9900033007E /* TextDocument.h */ = {isa = PBXFileReference; path = TextDocument.h; sourceTree = "<group>"; };
+		102ECD191432C9900033007E /* TextDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextDocument.h; sourceTree = "<group>"; };
 		102ECD1A1432C9900033007E /* TextDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextDocument.m; sourceTree = "<group>"; };
 		102ECD1D1432C9900033007E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/TextDocument.xib; sourceTree = "<group>"; };
 		102ECD201432C9900033007E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		102ECD2A1432E4190033007E /* TextSearcher.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextSearcher.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				102ECD191432C9900033007E /* TextDocument.h */,
 				102ECD1A1432C9900033007E /* TextDocument.m */,
 				102ECD1C1432C9900033007E /* TextDocument.xib */,
+				102ECD2A1432E4190033007E /* TextSearcher.xib */,
 				102ECD1F1432C9900033007E /* MainMenu.xib */,
 				102ECD0E1432C9900033007E /* Supporting Files */,
 			);
@@ -156,6 +159,7 @@
 				102ECD181432C9900033007E /* Credits.rtf in Resources */,
 				102ECD1E1432C9900033007E /* TextDocument.xib in Resources */,
 				102ECD211432C9900033007E /* MainMenu.xib in Resources */,
+				102ECD2B1432E4190033007E /* TextSearcher.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +299,7 @@
 				102ECD261432C9900033007E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

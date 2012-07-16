@@ -8,7 +8,22 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TextDocument : NSDocument {
+@interface TextDocument : NSDocument <NSTextViewDelegate> {
+    NSAttributedString *text;
+    
+    IBOutlet NSTextView *textView;
+    IBOutlet NSTextField *lineCount;
+    IBOutlet NSTextField *wordCount;
+    IBOutlet NSTextField *uniqueWordCount;
+    IBOutlet NSTextField *characterCount;
 }
+
+@property (nonatomic, copy) NSAttributedString *text;
+@property (readonly) NSUInteger numberOfLines;
+@property (readonly) NSUInteger numberOfWords;
+@property (readonly) NSUInteger numberOfUniqueWords;
+@property (readonly) NSUInteger numberOfCharacters;
+
+- (IBAction)count:(id)sender;
 
 @end
